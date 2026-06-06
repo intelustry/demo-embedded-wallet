@@ -1,0 +1,45 @@
+---
+description: React component patterns using shadcn/ui and Radix
+globs: src/components/**/*.tsx
+alwaysApply: false
+---
+
+# React Component Patterns
+
+## shadcn/ui Conventions
+
+- Primitives live in `src/components/ui/` (Button, Dialog, Input, etc.)
+- Use `class-variance-authority` (cva) for variant-based styling
+- Compose with `cn()` utility from `@/lib/utils` (wraps `clsx` + `tailwind-merge`)
+- Never modify ui/ primitives directly; extend via wrapper components
+
+## Component Structure
+
+```typescript
+import { cn } from "@/lib/utils"
+
+interface Props {
+  className?: string
+  children: React.ReactNode
+}
+
+export function MyComponent({ className, children }: Props) {
+  return <div className={cn("base-classes", className)}>{children}</div>
+}
+```
+
+## Rules
+
+- Functional components only, no class components
+- Props interface defined inline or co-located (not in a separate types file unless shared)
+- Use `"use client"` only when the component needs browser APIs, hooks, or event handlers
+- Server Components by default in App Router pages
+- Extract reusable logic into custom hooks in `src/hooks/`
+- Colocate feature-specific components near their route
+
+## Radix UI Integration
+
+- Import from `@radix-ui/react-*` packages
+- Always forward `ref` when wrapping Radix primitives
+- Use Radix's built-in accessibility (keyboard nav, focus management, ARIA)
+- Animations via `tailwindcss-animate` plugin + `data-[state=open/closed]` selectors

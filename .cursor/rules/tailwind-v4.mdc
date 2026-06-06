@@ -1,0 +1,46 @@
+---
+description: Tailwind CSS v4 configuration and theming
+globs: src/styles/**,**/*.css
+alwaysApply: false
+---
+
+# Tailwind CSS v4 (CSS-First Config)
+
+This project uses Tailwind v4 with CSS-first configuration. There is NO `tailwind.config.js`.
+
+## Configuration Location
+
+All theme config lives in `src/styles/globals.css`:
+- `@import "tailwindcss"` loads the framework
+- `@plugin 'tailwindcss-animate'` loads the animation plugin
+- `@theme { ... }` defines design tokens (colors, radii, animations)
+- `@utility` defines custom utilities (like `container`)
+- `@layer base` defines CSS custom properties for light/dark themes
+
+## Theme Tokens
+
+Colors use HSL CSS custom properties with the pattern:
+```css
+--color-primary: hsl(var(--primary));
+```
+
+Where `--primary` is defined in `:root` (light) and `.dark` (dark mode).
+
+## Adding New Theme Values
+
+Add to the `@theme` block in globals.css, NOT a config file:
+```css
+@theme {
+  --color-my-new: hsl(var(--my-new));
+}
+```
+
+Then define the HSL value in the `:root` and `.dark` layers.
+
+## PostCSS
+
+`postcss.config.js` only loads `@tailwindcss/postcss`. No autoprefixer needed (it's built in).
+
+## Dark Mode
+
+Uses class strategy via `@custom-variant dark (&:is(.dark *))`. Currently forced to light theme via ThemeProvider.

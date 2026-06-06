@@ -19,25 +19,25 @@ const baseUrl = (() => {
 })()
 
 export const siteConfig: SiteConfig = {
-  name: "Demo Embedded Wallet",
-  author: "turnkey",
+  name: "NGP Wallet",
+  author: "NGP",
   description:
-    "A comprehensive demo showcasing how to build an embedded wallet using Turnkey.",
+    "Enterprise embedded wallet platform powered by Turnkey infrastructure.",
   keywords: [
+    "NGP",
     "Turnkey",
     "Web3",
+    "Embedded Wallet",
     "Next.js",
     "React",
     "Tailwind CSS",
-    "Radix UI",
-    "shadcn/ui",
   ],
   url: {
     base: baseUrl,
-    author: "https://turnkey.io",
+    author: "https://github.com/ngp",
   },
   links: {
-    github: "https://github.com/tkhq/demo-embedded-wallet",
+    github: "https://github.com/ngp/ngp-wallet-int",
   },
   ogImage: `${baseUrl}/og.jpg`,
 }

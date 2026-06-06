@@ -1,0 +1,46 @@
+---
+description: Turnkey SDK integration patterns and conventions
+globs: src/actions/turnkey.ts,src/providers/**,src/config/turnkey.ts
+alwaysApply: false
+---
+
+# Turnkey Integration Patterns
+
+## Server Client Setup
+
+Use `ApiKeyStamper` + `TurnkeyServerClient` for server-side operations. Never expose API private keys to the client.
+
+```typescript
+const stamper = new ApiKeyStamper({
+  apiPublicKey: env.TURNKEY_API_PUBLIC_KEY,
+  apiPrivateKey: env.TURNKEY_API_PRIVATE_KEY,
+})
+
+const client = new TurnkeyServerClient({
+  apiBaseUrl: env.NEXT_PUBLIC_BASE_URL,
+  organizationId: turnkeyConfig.organizationId,
+  stamper,
+})
+```
+
+## Sub-Organization Pattern
+
+Each user gets a sub-org with a root user and default Ethereum wallet:
+- Sub-org name: `Sub Org - {email}`
+- Wallet: `DEFAULT_ETHEREUM_ACCOUNTS` from `@turnkey/sdk-server`
+- Root quorum threshold: 1
+
+## Authentication Methods
+
+1. **Passkeys** - challenge + attestation via `authenticators` array
+2. **OAuth** - OIDC token via `oauthProviders` array (decode JWT for email)
+3. **Email OTP** - `initOtp` → verify → `otpLogin` flow
+4. **Wallet import** - public key via `apiKeys` array with correct curve type
+
+## Warchest Funding
+
+Separate client (`warchestClient`) with its own API key pair funds new wallets 0.001 ETH on first use. Only funds if user has zero received transactions.
+
+## Config Structure (`src/config/turnkey.ts`)
+
+`TurnkeyProviderConfig` includes org ID, auth proxy, OAuth client IDs, and sub-org creation params with custom wallet definitions.

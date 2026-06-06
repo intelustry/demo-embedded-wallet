@@ -1,0 +1,45 @@
+---
+description: UI/UX design standards and accessibility requirements
+globs: src/components/**/*.tsx,src/app/**/*.tsx
+alwaysApply: false
+---
+
+# UI/UX Standards
+
+## Design System
+
+- Primary color: purple (HSL 241.31 100% 64.12%)
+- Border radius: 0.5rem base (--radius), with md and sm variants
+- Font: system font stack (no custom fonts loaded)
+- Spacing: follow Tailwind's spacing scale, prefer 4/6/8 for component padding
+
+## Accessibility Requirements
+
+- All interactive elements must be keyboard accessible
+- Use Radix primitives (they handle ARIA, focus traps, keyboard nav)
+- Color contrast: minimum 4.5:1 for text, 3:1 for large text
+- Never rely solely on color to convey information
+- All form inputs need associated labels (use Label from shadcn/ui)
+- Loading states: use skeleton components or spinner with aria-busy
+
+## Responsive Design
+
+- Mobile-first approach (base styles for mobile, `sm:` and up for larger)
+- Container max-width: 1400px with 2rem inline padding
+- Touch targets: minimum 44x44px for mobile interactions
+- Use Sheet/Drawer (vaul) for mobile overlays, Dialog for desktop
+
+## Animation
+
+- Use `tailwindcss-animate` utilities
+- Respect `prefers-reduced-motion` (the plugin handles this)
+- Keep animations under 200ms for UI feedback, 300ms for transitions
+- Accordion animations use Radix content height variables
+
+## Component Guidelines
+
+- Toast notifications via Sonner (`sonner` package)
+- OTP input via `input-otp` package
+- QR codes via `react-qr-code`
+- Avatar generation via `react-jazzicon` (deterministic from address)
+- Scroll areas use Radix ScrollArea for custom scrollbars

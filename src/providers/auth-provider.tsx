@@ -418,15 +418,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const loginWithGoogle = async (credential: string) => {
-    await loginWithOAuth(credential, "Google Auth - Embedded Wallet")
+    await loginWithOAuth(credential, "Google Auth - NGP Wallet")
   }
 
   const loginWithApple = async (credential: string) => {
-    await loginWithOAuth(credential, "Apple Auth - Embedded Wallet")
+    await loginWithOAuth(credential, "Apple Auth - NGP Wallet")
   }
 
   const loginWithFacebook = async (credential: string) => {
-    await loginWithOAuth(credential, "Facebook Auth - Embedded Wallet")
+    await loginWithOAuth(credential, "Facebook Auth - NGP Wallet")
   }
 
   const logout = async () => {

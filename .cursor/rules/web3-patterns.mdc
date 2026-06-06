@@ -1,0 +1,47 @@
+---
+description: Blockchain integration patterns with Viem and Alchemy
+globs: src/actions/web3.ts,src/lib/web3*
+alwaysApply: false
+---
+
+# Web3 Patterns
+
+## Network
+
+All blockchain operations target **Ethereum Sepolia** (testnet). Never default to mainnet.
+
+## Alchemy SDK Usage
+
+```typescript
+const alchemy = new Alchemy({
+  apiKey: env.NEXT_PUBLIC_ALCHEMY_API_KEY,
+  network: Network.ETH_SEPOLIA,
+  connectionInfoOverrides: { skipFetchSetup: true },
+})
+```
+
+The `skipFetchSetup: true` is required for Next.js server-side compatibility.
+
+## Viem Conventions
+
+- Use `Address` type for all Ethereum addresses
+- Always normalize with `getAddress()` before storing or comparing
+- Use `parseEther()` for ETH value conversions
+- Wallet clients created via `getTurnkeyWalletClient()` in `src/lib/web3`
+
+## Transaction Queries
+
+- Use `getAssetTransfers` for transaction history (supports ERC20, EXTERNAL, INTERNAL)
+- Always request `withMetadata: true` for timestamps
+- Sort by block number descending (newest first)
+- Separate sent vs received into distinct arrays
+
+## Token Prices
+
+Fetched from CoinGecko API with the demo API key. Generic type parameter maps token ID to response shape.
+
+## Error Handling
+
+- Balance queries return `BigInt` (not string or number)
+- getAddress() throws on invalid addresses - let it propagate
+- Network requests may fail - handle at the call site

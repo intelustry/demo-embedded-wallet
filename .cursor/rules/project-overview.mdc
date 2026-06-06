@@ -1,0 +1,38 @@
+---
+description: Core architecture and conventions for the embedded wallet demo
+alwaysApply: true
+---
+
+# Project Overview
+
+Next.js 15 (App Router) demo showcasing Turnkey embedded wallet with multiple auth methods.
+
+## Stack
+
+- **Runtime**: Next.js 15, React 19, TypeScript (strict)
+- **Auth**: Turnkey SDK (passkeys, OAuth via Google/Apple/Facebook, email OTP, wallet import)
+- **Blockchain**: Ethereum Sepolia via Viem + Alchemy SDK
+- **UI**: shadcn/ui (Radix primitives), Tailwind CSS v4 (CSS-first config)
+- **Validation**: Zod schemas, `@t3-oss/env-nextjs` for env vars
+- **Package manager**: pnpm 8.9
+
+## Provider Hierarchy
+
+```
+ThemeProvider > TurnkeyProvider > AuthProvider
+```
+
+All providers live in `src/providers/`. The root layout wraps children with `<Providers>`.
+
+## Route Groups
+
+- `(landing)` - Unauthenticated: home, email auth, OAuth callbacks
+- `(dashboard)` - Authenticated: wallet dashboard, settings
+
+## Key Patterns
+
+- Server actions in `src/actions/` with `"use server"` directive
+- Type-safe env via `src/env.mjs` (never access `process.env` directly)
+- Path alias: `@/*` maps to `./src/*`
+- Components organized by feature in `src/components/`, primitives in `src/components/ui/`
+- One sub-organization per user with an auto-created Ethereum wallet

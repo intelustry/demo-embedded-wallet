@@ -1,0 +1,38 @@
+---
+description: Server action conventions and error handling
+globs: src/actions/*.ts
+alwaysApply: false
+---
+
+# Server Actions
+
+## Structure
+
+- Every file starts with `"use server"` directive
+- Import env via `@/env.mjs`, never `process.env`
+- Group related operations in a single file (`turnkey.ts` for auth, `web3.ts` for blockchain)
+- Re-export from `src/actions/index.ts`
+
+## Error Handling
+
+- Throw descriptive errors with context: `throw new Error("Could not find suborg by email")`
+- Let errors propagate to the client boundary (Next.js serializes them)
+- Never silently swallow errors in catch blocks
+
+## Type Safety
+
+- Use Zod for input validation when accepting user input
+- Define discriminated union params for overloaded functions (see `getSubOrgId`)
+- Use `Address` type from Viem for Ethereum addresses, always normalize with `getAddress()`
+
+## Async Patterns
+
+- Use `Promise.all` for concurrent independent requests
+- Destructure responses inline: `const { wallets } = await client.getWallets(...)`
+- Map and filter wallet accounts server-side before returning to client
+
+## Conventions
+
+- No default exports; use named exports
+- Prefix internal helpers (like `getMagicLinkTemplate`) without export when not needed externally
+- Keep warchest/funding logic separate from user auth logic

@@ -132,7 +132,7 @@ export const createUserSubOrg = async ({
   const apiKeys = wallet
     ? [
         {
-          apiKeyName: "Wallet Auth - Embedded Wallet",
+          apiKeyName: "Wallet Auth - NGP Wallet",
           publicKey: wallet.publicKey,
           curveType:
             wallet.type === WalletType.Ethereum
@@ -242,7 +242,7 @@ export const initEmailAuth = async ({
 
   if (organizationId?.length) {
     const authResponse = await client.initOtp({
-      appName: "Demo Embedded Wallet",
+      appName: "NGP Wallet",
       userIdentifier: targetPublicKey,
       otpType: OtpType.Email,
       contact: email,
